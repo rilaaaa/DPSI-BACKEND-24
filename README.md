@@ -34,8 +34,8 @@ npm start
 
 ## Endpoint Testing Tool
 
-[Talend API Tester](https://chromewebstore.google.com/detail/talend-api-tester-free-ed/aejoelaoggembcahagimdiliamlcdmfm) <br>
-[Postman](https://www.postman.com/downloads/)
+<a href="https://chromewebstore.google.com/detail/talend-api-tester-free-ed/aejoelaoggembcahagimdiliamlcdmfm" target="_blank">Talend API Tester</a> <br>
+<a href="https://www.postman.com/downloads/" target="_blank">Postman</a>
 
 
 
