@@ -1,8 +1,9 @@
 const { Sequelize } = require("sequelize");
 
 // Konfigurasi koneksi Sequelize
-const sequelize = new Sequelize("db_dpsi", "root", "12345", {
-  host: "127.0.0.1",
+const sequelize = new Sequelize("db_dpsi", "root", "", {
+  // host: "127.0.0.1",
+  host: "localhost",
   dialect: "mysql",
   logging: false,
 });

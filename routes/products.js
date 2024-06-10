@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Product = require("../models/product"); // Impor model Product
+const Product = require("../models/product");
+const { authenticate, authorize } = require("../middleware/auth");
 
 // Endpoint untuk menambahkan produk baru
-router.post("/", async (req, res, next) => {
+router.post("/", authenticate, authorize(["admin"]), async (req, res, next) => {
   try {
     const { productName, supplierID, categoryID, unit, price } = req.body;
     const newProduct = await Product.create({
@@ -20,7 +21,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // Endpoint untuk menampilkan semua produk
-router.get("/", async (req, res, next) => {
+router.get("/", authenticate, async (req, res, next) => {
   try {
     const products = await Product.findAll();
     res.json(products);
@@ -30,7 +31,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // Endpoint untuk menampilkan produk berdasarkan ID
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", authenticate, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     if (product) {
@@ -44,39 +45,49 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Endpoint untuk memperbarui produk berdasarkan ID
-router.put("/:id", async (req, res, next) => {
-  try {
-    const { productName, supplierID, categoryID, unit, price } = req.body;
-    const product = await Product.findByPk(req.params.id);
-    if (product) {
-      product.productName = productName;
-      product.supplierID = supplierID;
-      product.categoryID = categoryID;
-      product.unit = unit;
-      product.price = price;
-      await product.save();
-      res.json(product);
-    } else {
-      res.status(404).json({ message: "Product not found" });
+router.put(
+  "/:id",
+  authenticate,
+  authorize(["admin"]),
+  async (req, res, next) => {
+    try {
+      const { productName, supplierID, categoryID, unit, price } = req.body;
+      const product = await Product.findByPk(req.params.id);
+      if (product) {
+        product.productName = productName;
+        product.supplierID = supplierID;
+        product.categoryID = categoryID;
+        product.unit = unit;
+        product.price = price;
+        await product.save();
+        res.json(product);
+      } else {
+        res.status(404).json({ message: "Product not found" });
+      }
+    } catch (err) {
+      next(err);
     }
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 // Endpoint untuk menghapus produk berdasarkan ID
-router.delete("/:id", async (req, res, next) => {
-  try {
-    const product = await Product.findByPk(req.params.id);
-    if (product) {
-      await product.destroy();
-      res.json({ message: "Product deleted" });
-    } else {
-      res.status(404).json({ message: "Product not found" });
+router.delete(
+  "/:id",
+  authenticate,
+  authorize(["admin"]),
+  async (req, res, next) => {
+    try {
+      const product = await Product.findByPk(req.params.id);
+      if (product) {
+        await product.destroy();
+        res.json({ message: "Product deleted" });
+      } else {
+        res.status(404).json({ message: "Product not found" });
+      }
+    } catch (err) {
+      next(err);
     }
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 module.exports = router;
