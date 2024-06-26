@@ -18,6 +18,9 @@ const User = sequelize.define(
       type: DataTypes.ENUM("admin", "user"),
       allowNull: false,
     },
+    profilePic: {
+      type: DataTypes.STRING,
+    },
   },
   {
     hooks: {
