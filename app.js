@@ -24,7 +24,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 app.use("/categories", categoriesRouter);
-app.use("/auth", authRouter); // Tambahkan ini untuk memuat rute auth
+app.use("/auth", authRouter);
 
 sequelize
   .sync()
