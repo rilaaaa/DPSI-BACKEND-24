@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -36,3 +37,6 @@ sequelize
   });
 
 module.exports = app;
+=======
+console.log("Hello, world!");
+>>>>>>> 1c624fdbcdc7a1d1c282944dd27e9927d8a71e6a
